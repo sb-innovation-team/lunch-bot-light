@@ -18,12 +18,12 @@ $router->get('/', function () use ($router) {
 $router->group (["prefix" => "/slack"], function () use ($router)
 {
 
-    $router->post ("/register",      "UserController@registerSlackUser");
-    $router->post ("/deposit",       "TransactionController@deposit");
-    $router->post ("/happyaccident", "TransactionController@happyAccident");
-    $router->post ("/balances",      "BalanceController@getAll");
-    $router->post ("/transactions",  "TransactionController@getAllRecent");
-    $router->post ("/hungry",        "LunchController@signUp");
+    $router->post ("/register",      "UserController@registerSlackUser"); //implemented
+    $router->post ("/deposit",       "TransactionController@deposit"); //implemented
+    $router->post ("/happyaccident", "TransactionController@happyAccident"); //implemented
+    $router->post ("/balances",      "BalanceController@getAll"); // implemented
+    $router->post ("/transactions",  "TransactionController@getAllRecent"); // Implemented
+    $router->post ("/hungry",        "LunchController@signUp"); // Implemented
     $router->post ("/overview",      "LunchController@overview");
     $router->post ("/budget",        "LunchController@budget");
 

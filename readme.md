@@ -29,7 +29,6 @@ Everything should work now.
 - `/transactions` Gets all recent transactions.
 - `/hungry` Puts you on the eat-list, tells you your balance, how much Lunch costs today, how many people already signed up.
 - `/overview` Prints an overview in #general with the Lunch Balance, how many people are attending.
-- `/budget` Prints the estimated budget for todays lunch (calculated by the amount of people signing up).
 
 ### Automated Tasks
 

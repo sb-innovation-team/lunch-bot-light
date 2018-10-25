@@ -26,10 +26,16 @@ class UserController extends Controller
             ]
         );
 
-        UserBalance::create ([$user->id, 0]);
+        UserBalance::create 
+        (
+            [
+                "user_id" => $user->id
+            ,   "amount"  => 0
+            ]
+        );
 
         $bot = new SlackClient ();
-        $bot->sendMessageToChannel ("#bobs-knutsel-hoek", "Welkom, $event->username!");
+        $bot->sendMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Welkom, $event->username!");
 
         return response (null, 200);
 

@@ -16,7 +16,7 @@ class CreateUserBalancesTable extends Migration
         Schema::create('user_balances', function (Blueprint $table) {
             $table->increments('id');
             $table->integer ("user_id");
-            $table->integer ("amount");
+            $table->decimal ("amount", 9, 3);
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->integer ("user_id");
             $table->enum ("mutation_type", ["deposit", "withdrawl"]);
-            $table->integer ("amount");
+            $table->decimal ("amount", 9, 3);
             $table->timestamps();
         });
     }

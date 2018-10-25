@@ -15,7 +15,7 @@ class CreateLunchBalancesTable extends Migration
     {
         Schema::create('lunch_balances', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer ("amount");
+            $table->decimal ("amount", 9, 3);
             $table->timestamps();
         });
     }

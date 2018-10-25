@@ -32,5 +32,26 @@ class SlackClient
 
     }
 
+    public function sendEphemeralMessageToChannel ($channel, $message, $userId)
+    {
+
+        $response = $this->slack->chat->postEphemeral(array(
+            "channel" => $channel,
+            "text" => $message,
+            "username" => env ("SLACK_BOT_USERNAME"),
+            "user"  => $userId,
+            "as_user" => false,
+            "parse" => "full",
+            "link_names" => 1,
+            "unfurl_links" => true,
+            "unfurl_media" => false
+          )
+        );
+
+        if ( ! $response["ok"])
+            die (var_dump ($response));
+
+    }
+
 
 }
