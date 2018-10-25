@@ -92,7 +92,7 @@ class TransactionController extends Controller
 
             $transactionAmount = (double) $transaction->amount;
 
-            $responseString .= "$user->username - $transaction->mutation_type : $transactionAmount\n";
+            $responseString .= "<@$user->slack_id> - $transaction->mutation_type : $transactionAmount\n";
 
         }
 
