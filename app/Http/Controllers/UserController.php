@@ -35,7 +35,7 @@ class UserController extends Controller
         );
 
         $bot = new SlackClient ();
-        $bot->sendMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Welkom, $event->username!");
+        $bot->sendMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Welkom, $user->username ($user->email)!");
 
         return response (null, 200);
 

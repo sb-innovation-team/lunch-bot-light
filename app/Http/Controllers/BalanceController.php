@@ -26,7 +26,7 @@ class BalanceController extends Controller
 
             $userBalance = (double) $balance->amount;
 
-            $responseString .= "$user->username - *€$userBalance*\n";
+            $responseString .= "$user->username ($user->email) - *€$userBalance*\n";
 
         }
 
