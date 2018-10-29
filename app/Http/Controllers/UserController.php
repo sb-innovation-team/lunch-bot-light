@@ -23,12 +23,17 @@ class UserController extends Controller
 
         }
 
+        $extractedEmail = preg_match ("/\|(.*@socialbrothers.nl)/", $event->text, $matches);
+
+        if ( ! isset ($matches[1]))
+            return response (["errors" => "Je email adres moet een Social Brothers email adres zijn."], 400);
+
         $user = User::create 
         (
             [
                 "username" => $event->username
             ,   "slack_id" => $event->userId
-            ,   "email"    => $event->text
+            ,   "email"    => $matches[1]
             ]
         );
 
