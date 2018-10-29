@@ -36,7 +36,7 @@ class LunchController extends Controller
             if ($lastEater->created_at->isToday ())
             {
 
-                $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Je staat al ingeschreven voor deze lunch, $user->username!", $user->slack_id);
+                $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Je staat al ingeschreven voor deze lunch, @$user->username!", $user->slack_id);
                 return response (null, 200);
 
             }
@@ -57,7 +57,7 @@ class LunchController extends Controller
             ]
         );
 
-        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Je staat ingeschreven voor de lunch, $user->username, je saldo staat nu op *€$balance->amount*.", $user->slack_id);
+        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Je staat ingeschreven voor de lunch, @$user->username, je saldo staat nu op *€$balance->amount*.", $user->slack_id);
 
     }
 
