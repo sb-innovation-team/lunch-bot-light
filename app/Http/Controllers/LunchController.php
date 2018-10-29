@@ -30,6 +30,15 @@ class LunchController extends Controller
             ->orderBy ("created_at", "desc")
             ->first ();
 
+        $deadline = Carbon::createFromFormat ("H:i", env ("SLACK_BOT_CLOSING_TIME"));
+        if (Carbon::now ()->gt ($deadline))
+        {
+
+            $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), " @$user->username, *Oei! Sorry*, maar je bent te laat om je in te schrijven voor de lunch. Let er op dat je je maximaal kan inschrijven tot *11:45*!", $user->slack_id);
+            return response (null, 200);
+
+        }
+
         if ($lastEater)
         {
 
@@ -108,6 +117,15 @@ class LunchController extends Controller
         $lastEater = Eater::where ("user_id", "=", $user->id)
             ->whereDate ("created_at", Carbon::today ())
             ->first ();
+
+        $deadline = Carbon::createFromFormat ("H:i", env ("SLACK_BOT_CLOSING_TIME"));
+        if (Carbon::now ()->gt ($deadline))
+        {
+
+            $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), " @$user->username, *Ja, dat kan niet*, we gaan ons niet inschrijven voor de lunch om dan op het laatste moment of na de lunch nog even uit teschrijven ;) Na *11:45* kan je je niet meer in of-uitschrijven.", $user->slack_id);
+            return response (null, 200);
+
+        }
 
         if ( ! $lastEater)
         {
