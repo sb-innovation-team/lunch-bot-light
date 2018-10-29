@@ -49,7 +49,7 @@ class TransactionController extends Controller
 
         $bot = new SlackClient ();
         $event = new SlackEvent ($request);
-        // $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Deze feature is nog niet beschikbaar :(");
+        // $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Deze feature is (nog) niet beschikbaar :(");
 
         $user = User::where ("slack_id", "=", $event->userId)
             ->first ();
