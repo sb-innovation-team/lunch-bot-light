@@ -40,8 +40,8 @@ class UserController extends Controller
             ]
         );
 
-        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Welkom, $user->username ($user->email)!", $user->slack_id);
-        $bot->sendMessageToChannel (env ("SLACK_BOT_SURVEILLANCE_CHANNEL"), "$user->username ($user->email) heeft zich registreert!", $user->slack_id);
+        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Welkom, @$user->username ($user->email)!", $user->slack_id);
+        $bot->sendMessageToChannel (env ("SLACK_BOT_SURVEILLANCE_CHANNEL"), "@$user->username ($user->email) heeft zich registreert!", $user->slack_id);
         
         return response (null, 200);
 
