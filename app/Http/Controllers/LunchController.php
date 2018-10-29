@@ -118,19 +118,19 @@ class LunchController extends Controller
             ->whereDate ("created_at", Carbon::today ())
             ->first ();
 
+        if ( ! $lastEater)
+        {
+            
+            $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "@$user->username Je staat niet ingeschreven voor deze lunch.", $user->slack_id);
+            return response (null, 200);
+
+        }
+
         $deadline = Carbon::createFromFormat ("H:i", env ("SLACK_BOT_CLOSING_TIME"));
         if (Carbon::now ()->gt ($deadline))
         {
 
             $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), " @$user->username, *Ja, dat kan niet*, we gaan ons niet inschrijven voor de lunch om dan op het laatste moment of na de lunch nog even uit teschrijven ;) Na *11:45* kan je je niet meer in of-uitschrijven.", $user->slack_id);
-            return response (null, 200);
-
-        }
-
-        if ( ! $lastEater)
-        {
-            
-            $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "@$user->username Je staat niet ingeschreven voor deze lunch.", $user->slack_id);
             return response (null, 200);
 
         }
