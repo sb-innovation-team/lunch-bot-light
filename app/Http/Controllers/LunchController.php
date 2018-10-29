@@ -101,7 +101,7 @@ class LunchController extends Controller
         $user = User::where ("slack_id", "=", $event->userId)
             ->first ();
 
-        $eaters = Eaters::where ("user_id", "=", $user->id)
+        $eaters = Eater::where ("user_id", "=", $user->id)
             ->whereDate ("created_at", Carbon::today ())
             ->get ();
 
