@@ -105,6 +105,18 @@ class LunchController extends Controller
             ->whereDate ("created_at", Carbon::today ())
             ->get ();
 
+        $lastEater = Eater::where ("user_id", "=", $user->id)
+            ->whereDate ("created_at", Carbon::today ())
+            ->first ();
+
+        if ( ! $lastEater)
+        {
+            
+            $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "@$user->username Je staat niet ingeschreven voor deze lunch.", $user->slack_id);
+            return response (null, 200);
+
+        }
+
         foreach ($eaters as $eater)
             $eater->delete ();
 
