@@ -75,7 +75,6 @@ class TransactionController extends Controller
 
         }
             
-
         $userBalance->save ();
 
         Transaction::create 
@@ -87,7 +86,8 @@ class TransactionController extends Controller
             ]
         );
 
-        $bot->sendMessageToChannel (env ("SLACK_BOT_SURVEILLANCE_CHANNEL"), "$user->email heeft zojuist een correctie gedaan. De transactie: *€$lastTransaction->amount* - $correctionType.");
+        $bot->sendMessageToChannel (env ("SLACK_BOT_SURVEILLANCE_CHANNEL"), "@$user->username heeft zojuist een correctie gedaan. De transactie: *€$lastTransaction->amount* - $correctionType.");
+        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "@$user->username Je laatste transactie is verwijderd, je saldo is nu: *€$userBalance->amount*", $user->slack_id);
         
     }
 
@@ -108,7 +108,7 @@ class TransactionController extends Controller
 
             $transactionAmount = (double) $transaction->amount;
 
-            $responseString .= "@$user->username - $transaction->mutation_type : $transactionAmount\n";
+            $responseString .= "@$user->username - $transaction->mutation_type : *€$transactionAmount*\n";
 
         }
 

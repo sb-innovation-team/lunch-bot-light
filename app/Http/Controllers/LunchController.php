@@ -92,4 +92,25 @@ class LunchController extends Controller
 
     }
     
+    public function signOff (Request $request)
+    {
+
+        $event = new SlackEvent ($request);
+        $bot   = new SlackClient ();
+
+        $user = User::where ("slack_id", "=", $event->userId)
+            ->first ();
+
+        $eaters = Eater::where ("user_id", "=", $user->id)
+            ->whereDate ("created_at", Carbon::today ())
+            ->get ();
+
+        foreach ($eaters as $eater)
+            $eater->delete ();
+
+        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "@$user->username jammer dat je laat afzien van de lunch, je bent uitgeschreven!", $user->slack_id);
+        $bot->sendMessageToChannel (env ("SLACK_BOT_SURVEILLANCE_CHANNEL"), "@$user->username heeft zich uitgeschreven van de lunch.");
+
+    }
+
 }
