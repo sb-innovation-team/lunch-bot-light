@@ -24,7 +24,7 @@ $router->group (["prefix" => "/slack"], function () use ($router)
     $router->post ("/balances",      "BalanceController@getAll"); // implemented
     $router->post ("/transactions",  "TransactionController@getAllRecent"); // Implemented
     $router->post ("/hungry",        "LunchController@signUp"); // Implemented
-    $router->post ("/overview",      "LunchController@overview");
-    $router->post ("/budget",        "LunchController@budget");
+    $router->post ("/overview",      "LunchController@overview"); // Implemented
+    $router->post ("/nothungry",     "LunchController@signOff");
 
 });
