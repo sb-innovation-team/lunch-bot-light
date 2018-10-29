@@ -108,8 +108,26 @@ class LunchController extends Controller
         foreach ($eaters as $eater)
             $eater->delete ();
 
-        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "@$user->username jammer dat je laat afzien van de lunch, je bent uitgeschreven!", $user->slack_id);
+        $balance = UserBalance::where ("user_id", "=", $user->id)
+            ->orderBy ("created_at", "desc")
+            ->first ();
+
+        $balance->amount += (double) env ("LUNCH_COST_IN_EUROS");
+        $balance->save ();
+
+        Transaction::create 
+        (
+            [
+                "user_id"       => $user->id
+            ,   "mutation_type" => "deposit"
+            ,   "amount"        => (double) env ("LUNCH_COST_IN_EUROS")
+            ]
+        );
+
+        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "@$user->username jammer dat je laat afzien van de lunch, je bent uitgeschreven en je geld is terug gestort naar je saldo, je saldo is nu: *€$balance->amount*!", $user->slack_id);
+        $bot->sendMessageToChannel (env ("SLACK_BOT_CHANNEL"), "@$user->username heeft zich uitgeschreven van de lunch :( ... Let hier op met het budget!");
         $bot->sendMessageToChannel (env ("SLACK_BOT_SURVEILLANCE_CHANNEL"), "@$user->username heeft zich uitgeschreven van de lunch.");
+
 
     }
 
