@@ -13,9 +13,15 @@ class UserController extends Controller
     {
 
         $event = new SlackEvent ($request);
+        $bot = new SlackClient ();
 
         if (User::where ("slack_id", "=", $event->userId)->exists ())
+        {
+
+            $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Dit Slack Account staat al geregistreerd!", $event->userId);
             return response (["error" => "This user already exists :("], 400);
+
+        }
 
         $user = User::create 
         (
@@ -34,9 +40,9 @@ class UserController extends Controller
             ]
         );
 
-        $bot = new SlackClient ();
-        $bot->sendMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Welkom, $user->username ($user->email)!");
-
+        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), "Welkom, $user->username ($user->email)!", $user->slack_id);
+        $bot->sendMessageToChannel (env ("SLACK_BOT_SURVEILLANCE_CHANNEL"), "$user->username ($user->email) heeft zich registreert!", $user->slack_id);
+        
         return response (null, 200);
 
     }

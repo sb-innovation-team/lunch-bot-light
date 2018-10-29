@@ -81,14 +81,14 @@ class LunchController extends Controller
                 ->first ()
                 ->amount;
 
-            $responseString .= "\n@$user->username ($user->email) - Saldo: *€$balance*";
+            $responseString .= "\n@$user->username - Saldo: *€$balance*";
 
         }
 
         $budget = (double) 3 * $eaters->count ();
         $responseString .= "\n\nHet budget voor de lunch is: *€$budget*";
 
-        $bot->sendMessageToChannel (env ("SLACK_BOT_CHANNEL"), $responseString);
+        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), $responseString, $event->userId);
 
     }
     

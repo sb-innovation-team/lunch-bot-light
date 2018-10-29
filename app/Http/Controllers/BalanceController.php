@@ -26,12 +26,12 @@ class BalanceController extends Controller
 
             $userBalance = (double) $balance->amount;
 
-            $responseString .= "$user->username ($user->email) - *€$userBalance*\n";
+            $responseString .= "@$user->username - *€$userBalance*\n";
 
         }
 
         $bot = new SlackClient ();
-        $bot->sendMessageToChannel (env ("SLACK_BOT_CHANNEL"), $responseString);
+        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), $responseString, $event->userId);
 
         return response (null, 200);
 
