@@ -1,5 +1,7 @@
 # Lunchbot Light
 
+This bot was written under a rapid timeframe, take note that the code requires refactoring before extending it any further.
+
 ## Dependencies
 
 - https://github.com/palanik/slack-php
