@@ -10,6 +10,7 @@ This bot was written under a rapid timeframe, take note that the code requires r
 
 ## Installation
 
+- Setup your Slack Workspace with the correct commands and token
 - Copy `.env.example` to `.env` file.
 - Fill in correct parameters for `.env` file.
 - `$ composer install`
