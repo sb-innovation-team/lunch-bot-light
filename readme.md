@@ -35,7 +35,5 @@ Everything should work now.
 
 ### Automated Tasks
 
-- **An hour before Lunch;** Announces Lunch, be there or be square!
-- **At lunchtime exact;** *&&* **There are attendees;** Subtracts the amount of money that lunch costs from every attendee's balance, adds it to the Lunch Balance.
-- **At lunchtime exact;** Drops a cheeky "Bon appetit!" in #general
+- **At lunchtime exact;** Drops a cheeky "Bon appetit!" in the designated lunch channel
 - **During the weekend;** Refuse all commands, even bots need weekends off, you know?
