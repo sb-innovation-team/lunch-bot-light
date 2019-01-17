@@ -15,7 +15,8 @@ class BalanceController extends Controller
 
         $event = new SlackEvent ($request);
 
-        $balances = UserBalance::all ();
+        $balances = UserBalance::orderBy ("amount", "asc")
+            ->get ();
 
         $responseString = "Balansen:\n";
         foreach($balances->all () as $balance)
