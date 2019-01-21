@@ -81,7 +81,7 @@ class LunchController extends Controller
                 ->first ()
                 ->amount;
 
-            $responseString .= "\n@$user->username - Saldo: *€$balance*";
+            $responseString .= "\n@$user->username | Saldo: *€$balance*";
 
         }
 

@@ -9,5 +9,12 @@ class LunchBalance extends Model
     [
         "amount"
     ];
+
+    public function getBalance ()
+    {
+
+        return (double) $this->amount;
+
+    }
     
 }
