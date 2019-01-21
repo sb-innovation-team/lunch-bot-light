@@ -96,6 +96,8 @@ class LunchController extends Controller
 
         }
 
+        $eatersAndBalances->sortBy ("balance");
+
         $this->responseString = "";
 
         if ($eatersAndBalances->isEmpty ())
