@@ -9,5 +9,12 @@ class Transaction extends Model
     [
         "user_id", "mutation_type", "amount"
     ];
+
+    public function user ()
+    {
+
+        return $this->belongsTo ("App\User");
+
+    }
     
 }
