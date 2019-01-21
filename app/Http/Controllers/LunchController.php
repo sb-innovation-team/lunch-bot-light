@@ -8,10 +8,13 @@ use App\SlackClient;
 use App\Transaction;
 use App\UserBalance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 
 class LunchController extends Controller
 {
+
+    private $responseString;
 
     public function signUp (Request $request)
     {
@@ -30,14 +33,14 @@ class LunchController extends Controller
             ->orderBy ("created_at", "desc")
             ->first ();
 
-        $deadline = Carbon::createFromFormat ("H:i", env ("SLACK_BOT_CLOSING_TIME"));
-        if (Carbon::now ()->gt ($deadline))
-        {
+        // $deadline = Carbon::createFromFormat ("H:i", env ("SLACK_BOT_CLOSING_TIME"));
+        // if (Carbon::now ()->gt ($deadline))
+        // {
 
-            $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), " @$user->username, *Oei! Sorry*, maar je bent te laat om je in te schrijven voor de lunch. Let er op dat je je maximaal kan inschrijven tot *11:45*!", $user->slack_id);
-            return response (null, 200);
+        //     $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), " @$user->username, *Oei! Sorry*, maar je bent te laat om je in te schrijven voor de lunch. Let er op dat je je maximaal kan inschrijven tot *11:45*!", $user->slack_id);
+        //     return response (null, 200);
 
-        }
+        // }
 
         if ($lastEater)
         {
@@ -79,8 +82,7 @@ class LunchController extends Controller
         $eaters = Eater::whereDate ("created_at", Carbon::today ())
             ->get ();
 
-        $responseString = "Vandaag eet mee:";
-
+        $eatersAndBalances = new Collection ();
         foreach ($eaters as $eater)
         {
 
@@ -90,14 +92,35 @@ class LunchController extends Controller
                 ->first ()
                 ->amount;
 
-            $responseString .= "\n@$user->username | Saldo: *€$balance*";
+            $eatersAndBalances->push ((Object) ["username" => $user->username, "balance" => "$balance"]);
 
         }
 
-        $budget = (double) 3 * $eaters->count ();
-        $responseString .= "\n\nHet budget voor de lunch is: *€$budget*";
+        $this->responseString = "";
 
-        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), $responseString, $event->userId);
+        if ($eatersAndBalances->isEmpty ())
+        {
+
+            $this->responseString = "Vandaag eet niemand mee :(";
+
+        } else {
+
+            $this->responseString = "Vandaag eet mee:";
+
+            // foreach ($eatersAndBalances->all () as $eaterWithBalance)
+            $eatersAndBalances->each (function ($eaterWithBalance)
+            {
+
+                $this->responseString .= "\n@$eaterWithBalance->username | Saldo: *€$eaterWithBalance->balance*";
+
+            });
+
+            $budget = (double) 3 * $eaters->count ();
+            $this->responseString .= "\n\nHet budget voor de lunch is: *€$budget*";
+
+        }
+
+        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), $this->responseString, $event->userId);
 
     }
     
