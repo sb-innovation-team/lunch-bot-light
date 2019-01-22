@@ -17,4 +17,11 @@ class UserBalance extends Model
 
     }
 
+    public function getAmount ()
+    {
+
+        return (double) $this->amount;
+
+    }
+
 }

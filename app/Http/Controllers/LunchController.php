@@ -96,7 +96,7 @@ class LunchController extends Controller
 
         }
 
-        $eatersAndBalances = $eatersAndBalances->sortBy ("balance");
+        $eatersAndBalances = $eatersAndBalances->sortByDesc ("balance");
 
         $this->responseString = "";
 
