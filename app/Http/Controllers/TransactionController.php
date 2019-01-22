@@ -96,9 +96,12 @@ class TransactionController extends Controller
 
         $event = new SlackEvent ($request);
 
-        $transactions = Transaction::all ();
+        $aMonthAgo = \Carbon\Carbon::now ()
+            ->subMonth ();
+        $transactions = Transaction::where ("created_at", ">=", $aMonthAgo)
+            -> get ();
 
-        $responseString = "Transacties:\n";
+        $responseString = "Recente Transacties (niet ouder dan een maand):\n";
 
         foreach ($transactions as $transaction)
         {
