@@ -107,8 +107,9 @@ class TransactionController extends Controller
                 ->first ();
 
             $transactionAmount = (double) $transaction->amount;
+            $transactionDate   = $transaction->created_at->format ("Y-m-d");
 
-            $responseString .= "@$user->username - $transaction->mutation_type : *€$transactionAmount*\n";
+            $responseString .= "@$user->username - $transaction->mutation_type : *€$transactionAmount* | $transactionDate\n";
 
         }
 
