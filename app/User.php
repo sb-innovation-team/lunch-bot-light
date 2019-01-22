@@ -1,26 +1,28 @@
 <?php namespace App;
 
+use App\UserBalance;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = 
     [
         'username', "slack_id", 'email',
     ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        // 'password',
-    ];
+    public function userBalance ()
+    {
+
+        return $this->hasOne ("App\UserBalance");
+
+    }
+    
+    public function getBalance ()
+    {
+
+        return (double) $this->userBalance->amount;
+
+    }
+
 }

@@ -15,23 +15,20 @@ class BalanceController extends Controller
 
         $event = new SlackEvent ($request);
 
-        $balances = UserBalance::all ();
+        $balances = UserBalance::orderBy ("amount", "desc")
+            ->get ();
 
         $responseString = "Balansen:\n";
-        foreach($balances->all () as $balance)
+
+        foreach ($balances as $balance)
         {
 
-            $user = User::where ("id", "=", $balance->user_id)
-                ->first ();
-
-            $userBalance = (double) $balance->amount;
-
-            $responseString .= "@$user->username - *€$userBalance*\n";
+            $user = User::find ($balance->user_id);
+            $responseString .= "@$user->username | *€" . $balance->getAmount () . "*\n";
 
         }
 
-        $bot = new SlackClient ();
-        $bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), $responseString, $event->userId);
+        $this->bot->sendEphemeralMessageToChannel (env ("SLACK_BOT_CHANNEL"), $responseString, $event->userId);
 
         return response (null, 200);
 

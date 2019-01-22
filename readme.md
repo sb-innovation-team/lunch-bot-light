@@ -1,5 +1,7 @@
 # Lunchbot Light
 
+This bot was written under a rapid timeframe, take note that the code requires refactoring before extending it any further.
+
 ## Dependencies
 
 - https://github.com/palanik/slack-php
@@ -8,6 +10,7 @@
 
 ## Installation
 
+- Setup your Slack Workspace with the correct commands and token
 - Copy `.env.example` to `.env` file.
 - Fill in correct parameters for `.env` file.
 - `$ composer install`
@@ -32,7 +35,5 @@ Everything should work now.
 
 ### Automated Tasks
 
-- **An hour before Lunch;** Announces Lunch, be there or be square!
-- **At lunchtime exact;** *&&* **There are attendees;** Subtracts the amount of money that lunch costs from every attendee's balance, adds it to the Lunch Balance.
-- **At lunchtime exact;** Drops a cheeky "Bon appetit!" in #general
+- **At lunchtime exact;** Drops a cheeky "Bon appetit!" in the designated lunch channel
 - **During the weekend;** Refuse all commands, even bots need weekends off, you know?
