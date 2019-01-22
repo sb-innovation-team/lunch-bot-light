@@ -119,6 +119,7 @@ class LunchController extends Controller
 
             $budget = (double) 3 * $eaters->count ();
             $this->responseString .= "\n\nHet budget voor de lunch is: *€$budget*";
+            $this->responseString .= "\nEr eten *" . $eaters->count () . "* mensen mee.";
 
         }
 
