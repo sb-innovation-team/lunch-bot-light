@@ -8,7 +8,7 @@ class User extends Model
 
     protected $fillable = 
     [
-        'username', "slack_id", 'email',
+        'username', "slack_id", 'email', 'active'
     ];
 
     public function userBalance ()
